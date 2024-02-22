@@ -1,0 +1,19 @@
+<!--<div *ngIf="weapon">-->
+<!--  <h2>{{weapon.name | uppercase}} Details</h2>-->
+<!--  <div><span>id: </span>{{weapon.id}}</div>-->
+<!--  <div><span>health: </span>{{weapon.damage}}</div>-->
+<!--  <div>-->
+<!--    <label for="hero-name">Weapon name: </label>-->
+<!--    <input id="hero-name" [(ngModel)]="weapon.name" placeholder="Weapon name"/>-->
+<!--  </div>-->
+<!--  <button type="button" (click)="goBack()">go back</button>-->
+<!--</div>-->
+
+<h2>My Weapons</h2>
+<ul class="weapons">
+  <li *ngFor="let weapon of weapons">
+    <a routerLink="/detail/{{weapon.id}}">
+      <span class="badge">{{weapon.id}}</span> {{weapon.name}} - {{weapon.damage}}
+    </a>
+  </li>
+</ul>
