@@ -1,13 +1,10 @@
 import { Weapon } from './weapon';
 
 export const WEAPONS: Weapon[] = [
-  { id: 12, name: 'Dr. Nice', damage:100 },
-  { id: 13, name: 'Bombasto', damage:100 },
-  { id: 14, name: 'Celeritas', damage:100 },
-  { id: 15, name: 'Magneta', damage:100 },
-  { id: 16, name: 'RubberMan', damage:100 },
-  { id: 17, name: 'Dynama', damage:100 },
-  { id: 18, name: 'Dr. IQ', damage:100 },
-  { id: 19, name: 'Magma', damage:100 },
-  { id: 20, name: 'Tornado', damage:100 }
+  { id: 2, name: 'Knife', damage:30 },
+  { id: 3, name: 'Gun K98', damage:100 },
+  { id: 4, name: 'Gun AWS', damage:100 },
+  { id: 5, name: 'Gun M416', damage:40 },
+  { id: 6, name: 'Gun AK47', damage:60 },
+  { id: 7, name: 'Gun Groza', damage:50 },
 ];
