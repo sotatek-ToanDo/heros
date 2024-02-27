@@ -1,7 +1,11 @@
 <h2>Top Heroes</h2>
 <div class="heroes-menu">
-  <a *ngFor="let hero of heroes"
-    routerLink="/detail/{{hero.id}}">
+  <a *ngFor="let hero of heroes" (click)="dragImage(hero)">
     {{hero.name}}
   </a>
+</div>
+<div class="footer d-flex justify-content-center cursor-pointer">
+  <button #btn id="btn" (click)="startBattle()" class="cursor-pointer">Start Battle</button>
+</div>
+<div class="canva-konva border" id="container">
 </div>

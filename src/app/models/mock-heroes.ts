@@ -8,6 +8,5 @@ export const HEROES: Hero[] = [
   { id: 16, name: 'RubberMan', health:100 , srcImage:'assets/images/avatar5.jpg'},
   { id: 17, name: 'Dynama', health:100 , srcImage:'assets/images/avatar6.jpg'},
   { id: 18, name: 'Dr. IQ', health:100, srcImage:'assets/images/avatar7.jpg' },
-  { id: 19, name: 'Magma', health:100, srcImage:'assets/images/avatar8.jpg' },
-  { id: 20, name: 'Tornado', health:100, srcImage:'assets/images/avatar9.jpg' }
+  { id: 19, name: 'Magma', health:100, srcImage:'assets/images/avatar8.jpg' }
 ];

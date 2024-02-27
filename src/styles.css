@@ -5,7 +5,7 @@
 @import 'tailwindcss/components';
 @import "bootstrap/dist/css/bootstrap.css";
 @import 'tailwindcss/utilities';
-
+@import "@ng-select/ng-select/themes/default.theme.css";
 
 /* Global Styles */
 * {

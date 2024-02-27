@@ -1,9 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import {Hero} from '../../../models';
+import {Armour, Hero, Weapon} from '../../../models';
 // @ts-ignore
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {ArmourService} from "../../../services/armour.service";
+import {WeaponService} from "../../../services/weapon.service";
 
 @Component({
   selector: 'app-hero-dialog',
@@ -19,6 +21,14 @@ export class HeroDialogComponent implements OnInit, OnDestroy {
 
   public srcImageControl: FormControl;
 
+  public armourControl: FormControl;
+
+  public weaponControl: FormControl;
+
+  public armours: Armour[] = [];
+
+  public weapons: Weapon[] = [];
+
   public heroForm: FormGroup;
 
   protected _subscription: Subscription;
@@ -32,15 +42,22 @@ export class HeroDialogComponent implements OnInit, OnDestroy {
 
   //#endregion
   public constructor(protected readonly heroModel: Hero,
-                     protected readonly _activeModal: NgbActiveModal) {
+                     protected readonly _activeModal: NgbActiveModal,
+                     protected  readonly armourService: ArmourService,
+                     protected  readonly weaponService: WeaponService,
+                     ) {
     this.nameControl = new FormControl('', Validators.required);
     this.healthControl = new FormControl('', Validators.required);
     this.srcImageControl = new FormControl('', Validators.required);
+    this.armourControl = new FormControl('', Validators.required);
+    this.weaponControl = new FormControl('', Validators.required);
 
     this.heroForm = new FormGroup({
       name: this.nameControl,
       health: this.healthControl,
       srcImage: this.srcImageControl,
+      armour: this.armourControl,
+      weapon: this.weaponControl,
     });
     this._subscription = new Subscription();
   }
@@ -57,6 +74,8 @@ export class HeroDialogComponent implements OnInit, OnDestroy {
         srcImage: this.heroModel.srcImage,
       });
     }
+    this.getArmours();
+    this.getWeapons();
   }
 
   public ngOnDestroy(): void {
@@ -72,6 +91,8 @@ export class HeroDialogComponent implements OnInit, OnDestroy {
       name: this.nameControl.value,
       health: this.healthControl.value,
       srcImage: this.heroForm.controls['srcImage'].value,
+      armour: this.armourControl.value,
+      weapon: this.weaponControl.value,
     };
     this._activeModal.close({
       ...heroModel,
@@ -95,5 +116,16 @@ export class HeroDialogComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(this.fileToUpload);
   }
 
+  public getArmours(): void {
+    const armourSubscription = this.armourService.getArmours()
+      .subscribe(armour => this.armours = armour);
+    this._subscription.add(armourSubscription);
+  }
+
+  public getWeapons(): void {
+    const weaponSubscription = this.weaponService.getWeapons()
+      .subscribe(weapons => this.weapons = weapons);
+    this._subscription.add((weaponSubscription));
+  }
   //#endregion
 }

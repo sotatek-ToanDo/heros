@@ -1,4 +1,9 @@
-.avatar{
+.avatar {
   height: 50px;
   width: 50px;
+}
+
+button:hover {
+  color: unset !important;
+  opacity: 0.7;
 }

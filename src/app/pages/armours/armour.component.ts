@@ -23,10 +23,10 @@ export class ArmourComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.getWeapons();
+    this.getArmours();
   }
 
-  public getWeapons(): void {
+  public getArmours(): void {
     const armourSubscription = this.armourService.getArmours()
       .subscribe(armour  => this.armours = armour);
     this._subscription.add(armourSubscription);

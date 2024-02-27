@@ -47,6 +47,28 @@
                    class="avatar bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
             </label>
           </div>
+          <div class="col-6">
+          </div>
+          <div class="col-6 mb-3">
+            <label for="armour" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Armour</label>
+            <ng-select class="border"
+              [formControl]=armourControl
+              [items]="armours"
+              bindValue="health"
+              bindLabel="name"
+              placeholder="Select...">
+            </ng-select>
+          </div>
+          <div class="col-6 mb-3">
+            <label for="weapon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Weapon</label>
+            <ng-select class="border"
+                       [formControl]=weaponControl
+                       [items]="weapons"
+                       bindValue="damage"
+                       bindLabel="name"
+                       placeholder="Select...">
+            </ng-select>
+          </div>
         </div>
         <div class="flex justify-content-center gap-x-3">
           <button type="button" (click)="clickCloseDialog()"

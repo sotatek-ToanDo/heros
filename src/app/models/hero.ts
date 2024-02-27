@@ -6,6 +6,6 @@ export class Hero {
   public name!: string;
   public health!: number;
   public srcImage!: string;
-  public armour?: Armour[];
-  public weapon?: Weapon[];
+  public armour?: number;
+  public weapon?: number;
 }

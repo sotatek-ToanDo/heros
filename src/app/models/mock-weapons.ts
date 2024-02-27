@@ -7,4 +7,6 @@ export const WEAPONS: Weapon[] = [
   { id: 5, name: 'Gun M416', damage:40 },
   { id: 6, name: 'Gun AK47', damage:60 },
   { id: 7, name: 'Gun Groza', damage:50 },
+  { id: 7, name: 'Gun Groza1', damage:50 },
+  { id: 7, name: 'Gun Groza2', damage:50 },
 ];
