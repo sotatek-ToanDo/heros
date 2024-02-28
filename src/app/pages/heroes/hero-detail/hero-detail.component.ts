@@ -11,7 +11,7 @@ import {Subscription} from "rxjs";
   templateUrl: './hero-detail.component.html',
   styleUrls: ['./hero-detail.component.css']
 })
-export class HeroDetailComponent implements OnInit,OnDestroy {
+export class HeroDetailComponent implements OnInit, OnDestroy {
   public hero!: Hero[] | any;
   protected _subscription: Subscription;
 

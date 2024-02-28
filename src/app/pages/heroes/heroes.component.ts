@@ -66,6 +66,7 @@ export class HeroesComponent implements OnInit, OnDestroy {
       });
     this._subscription.add(createWeaponOrArmourSubscription);
   }
+
   public ngOnDestroy() {
     this._subscription?.unsubscribe();
   }

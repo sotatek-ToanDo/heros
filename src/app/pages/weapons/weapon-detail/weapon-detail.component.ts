@@ -21,11 +21,11 @@ export class WeaponDetailComponent implements OnInit {
     this._subscription = new Subscription();
   }
 
-  ngOnInit(): void {
+  public  ngOnInit(): void {
     this.getHero();
   }
 
-  getHero(): void {
+  public getHero(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     const weaponSubscription = this.weaponService.getWeapon(id)
       .subscribe(weapon => this.weapon = weapon);

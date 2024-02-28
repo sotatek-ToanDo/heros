@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
 
@@ -18,6 +18,7 @@ import {HeroDetailComponent} from "./pages/heroes/hero-detail/hero-detail.compon
 import {WeaponComponent} from "./pages/weapons/weapon.component";
 import {HeroDialogComponent} from "./pages/heroes/hero-dialog/hero-dialog.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {WeaponDetailComponent} from "./pages/weapons/weapon-detail/weapon-detail.component";
 @NgModule({
   imports: [
     BrowserModule,
@@ -28,7 +29,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     NgSelectModule,
     CommonModule,
     NgbModule,
-
+    FormsModule
   ],
   declarations: [
     AppComponent,
@@ -37,6 +38,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     HeroDetailComponent,
     MessagesComponent,
     WeaponComponent,
+    WeaponDetailComponent,
     ArmourComponent,
     ArmourDetailComponent,
     HeroDialogComponent

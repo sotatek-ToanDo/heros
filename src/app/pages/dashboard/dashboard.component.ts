@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getArmours();
     this.getWeapons();
     this.heroes.forEach((item, i) => {
-      item.weapon =  this.weapons[i].damage ? this.weapons[i].damage : 20;
+      item.weapon = this.weapons[i].damage ? this.weapons[i].damage : 20;
       item.health += this.armours[i].health || 0;
     })
   }
