@@ -10,7 +10,7 @@ import {WeaponService} from "../../services/weapon.service";
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   public heroes: Hero[] = [];
@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this._subscription.add(dashboardSubscription);
   }
 
-  public dragImage(hero: Hero): void {
+  public dragHeroToCanva(hero: Hero): void {
     if (!this.listHero.includes(hero) && this.listHero.length <= 2) {
       this.listHero.push(hero);
     }
@@ -107,6 +107,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (this.listHero[1].health <= 50) {
       this.reDrawImage();
     }
+    this.listHero = this.listHero.filter(item => item.health > 0);
   }
 
   public reDrawImage(): void {

@@ -21,6 +21,9 @@ export class HeroesComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.getHeroes();
+    this.heroes.forEach((item, i) => {
+      item.health = 100;
+    })
   }
 
   public getHeroes(): void {
