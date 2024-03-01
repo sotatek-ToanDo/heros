@@ -14,6 +14,7 @@ import {HeroDialogComponent} from "../pages/heroes/hero-dialog/hero-dialog.compo
 export class HeroService {
   private baseUrl = 'http://localhost:4200';
   public heroRequest = HEROES;
+  public hero: any;
 
   constructor(private messageService: MessageService,
               private http: HttpClient,
@@ -72,14 +73,19 @@ export class HeroService {
   }
 
   public saveInitStep(hero: any): void {
-    this.heroRequest.forEach((item: Hero) =>{
-      if(item.id ==hero.id){
+    console.log(hero)
+    this.heroRequest.forEach((item: any) => {
+      if (item.id == hero.id) {
         item.name = hero.name;
         item.health = hero.health;
         item.srcImage = hero.srcImage;
+        item.weapon= hero.weapon ?? 0;
+        item.armour= hero.armour ?? 0;
       }
     })
   }
+
+
   public getInitStep(): any {
     return this.heroRequest;
   }

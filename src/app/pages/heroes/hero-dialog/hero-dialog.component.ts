@@ -6,6 +6,7 @@ import {Armour, Hero, Weapon} from '../../../models';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {ArmourService} from "../../../services/armour.service";
 import {WeaponService} from "../../../services/weapon.service";
+import {HeroService} from "../../../services/hero.service";
 
 @Component({
   selector: 'app-hero-dialog',
@@ -45,6 +46,7 @@ export class HeroDialogComponent implements OnInit, OnDestroy {
                      protected readonly _activeModal: NgbActiveModal,
                      protected  readonly armourService: ArmourService,
                      protected  readonly weaponService: WeaponService,
+                     protected  readonly heroService: HeroService,
                      ) {
     this.nameControl = new FormControl('', Validators.required);
     this.healthControl = new FormControl('', Validators.required);
@@ -67,11 +69,15 @@ export class HeroDialogComponent implements OnInit, OnDestroy {
 
   ///#region Life cycle
   public ngOnInit(): void {
+    const heroes = this.heroService.getInitStep();
+    console.log(heroes)
     if (this.heroModel && this.heroModel.id) {
       this.heroForm.patchValue({
         name: this.heroModel.name,
         health: this.heroModel.health,
         srcImage: this.heroModel.srcImage,
+        armour: this.heroModel.armour,
+        weapon: this.heroModel.weapon,
       });
     }
     this.getArmours();
@@ -97,6 +103,7 @@ export class HeroDialogComponent implements OnInit, OnDestroy {
     this._activeModal.close({
       ...heroModel,
     });
+    this.heroService.saveInitStep(heroModel);
   }
 
   public clickCloseDialog(): void {

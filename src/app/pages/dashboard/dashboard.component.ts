@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Hero} from '../../models/hero';
 import {HeroService} from '../../services/hero.service';
-import {Subscription} from "rxjs";
+import {catchError, mergeMap, of, Subscription, throwError} from "rxjs";
 import Konva from "konva";
 import {ArmourService} from "../../services/armour.service";
 import {Armour, Weapon} from "../../models";
@@ -17,6 +17,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public armours: Armour[] = [];
   public weapons: Weapon[] = [];
   public listHero: Hero[] = [];
+  public canvas!: HTMLCanvasElement;
+  public stage!: Konva.Stage;
+  public layer!: Konva.Layer;
+  public intervalId: any;
+  public battleCompleted = false;
+
   protected _subscription: Subscription;
 
   constructor(private heroService: HeroService,
@@ -32,7 +38,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.heroes.forEach((item, i) => {
       item.weapon = this.weapons[i].damage ? this.weapons[i].damage : 20;
       item.health += this.armours[i].health || 0;
-    })
+    });
+    this.initializeCanvas();
   }
 
   public getHeroes(): void {
@@ -40,135 +47,66 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe(heroes => this.heroes = heroes);
     this._subscription.add(dashboardSubscription);
   }
-
-  public dragHeroToCanva(hero: Hero): void {
-    if (!this.listHero.includes(hero) && this.listHero.length <= 2) {
+  private initializeCanvas(): void {
+    this.canvas = document.getElementById('container') as HTMLCanvasElement;
+    this.stage = new Konva.Stage({
+      container: 'container',
+      width: 750,
+      height: 500
+    });
+    this.layer = new Konva.Layer();
+    this.stage.add(this.layer);
+  }
+  public dragHeroToCanvas(hero: Hero): void {
+    const index = this.listHero.findIndex(h => h.id === hero.id);
+    if (index !== -1) {
+      this.listHero.splice(index, 1);
+      this.reDrawHero();
+    } else {
       this.listHero.push(hero);
+      this.drawHero(hero);
     }
-
-    const width: number = window.innerWidth;
-    const height: number = window.innerHeight;
-    const stage = new Konva.Stage({
-      container: 'container',
-      width: width,
-      height: height,
-    });
-
-    const layer = new Konva.Layer();
-    stage.add(layer);
-
-    // @ts-ignore
-    const darthVaderImg = new Konva.Image({
-      x: 20,
-      y: 20,
-      width: 200,
-      height: 137,
-      strokeWidth: 10,
-      draggable: true,
-    });
-    layer.add(darthVaderImg);
-
-    // @ts-ignore
-    const yodaImg = new Konva.Image({
-      x: 240,
-      y: 20,
-      width: 200,
-      height: 137,
-      draggable: true,
-      strokeWidth: 10,
-    });
-    layer.add(yodaImg);
-    const imageObj1 = new Image();
-    imageObj1.onload = function () {
-      darthVaderImg.image(imageObj1);
-    };
-    imageObj1.src = this.listHero[0].srcImage;
-    const imageObj2 = new Image();
-    imageObj2.onload = function () {
-      yodaImg.image(imageObj2);
-    };
-    imageObj2.src = this.listHero[1] ? this.listHero[1].srcImage : '';
-    layer.on('mouseover', (evt) => {
-      const shape = evt.target as Konva.Shape;
-      document.body.style.cursor = 'pointer';
-      shape.strokeEnabled(false);
-    });
-
-    layer.on('mouseout', (evt) => {
-      const shape = evt.target as Konva.Shape;
-      document.body.style.cursor = 'default';
-      shape.strokeEnabled(true);
-    });
   }
-
-  public startBattle(): void {
-    // @ts-ignore
-    this.listHero[1].health = this.listHero[1].health - this.listHero[0]?.weapon;
-    if (this.listHero[1].health <= 50) {
-      this.reDrawImage();
-    }
-    this.listHero = this.listHero.filter(item => item.health > 0);
-  }
-
-  public reDrawImage(): void {
-    const width: number = window.innerWidth;
-    const height: number = window.innerHeight;
-    const stage = new Konva.Stage({
-      container: 'container',
-      width: width,
-      height: height,
-    });
-
-    const layer = new Konva.Layer();
-    stage.add(layer);
-
-    // @ts-ignore
-    const darthVaderImg = new Konva.Image({
-      x: 20,
-      y: 20,
-      width: 200,
-      height: 137,
-      strokeWidth: 10,
-      draggable: true,
-    });
-    layer.add(darthVaderImg);
-
-    const imageObj1 = new Image();
-    imageObj1.onload = function () {
-      darthVaderImg.image(imageObj1);
-    };
-    imageObj1.src = this.listHero[0].srcImage;
-
-    if (this.listHero[1].health >= 0) {
-      // @ts-ignore
-      const yodaImg = new Konva.Image({
-        x: 240,
-        y: 20,
-        width: 200,
-        height: 137,
-        draggable: true,
-        stroke: 'red',
-        strokeWidth: 10,
+  private drawHero(hero: Hero): void {
+    const imageObj = new Image();
+    imageObj.src = hero.srcImage;
+    imageObj.onload = () => {
+      const konvaImage = new Konva.Image({
+        image: imageObj,
+        x: Math.random() * 600,
+        y: Math.random() * 450,
+        width: 150,
+        height: 150,
+        draggable: true
       });
-      layer.add(yodaImg);
-      const imageObj2 = new Image();
-      imageObj2.onload = function () {
-        yodaImg.image(imageObj2);
-      };
-      imageObj2.src = (this.listHero[1]) ? this.listHero[1].srcImage : '';
-    }
 
-    layer.on('mouseover', (evt) => {
-      const shape = evt.target as Konva.Shape;
-      document.body.style.cursor = 'pointer';
-      shape.strokeEnabled(false);
-    });
+      if (hero.health < 50) {
+        konvaImage.stroke('red');
+        konvaImage.strokeWidth(5);
+      }
 
-    layer.on('mouseout', (evt) => {
-      const shape = evt.target as Konva.Shape;
-      document.body.style.cursor = 'default';
-      shape.strokeEnabled(true);
+      konvaImage.on('click', () => {
+        this.changeWeapon(hero);
+      });
+      this.layer.add(konvaImage);
+      this.layer.batchDraw();
+    };
+  }
+  public startBattle(): void {
+    this.intervalId = setInterval(() => {
+      this.attack();
+      if (this.battleCompleted) {
+        clearInterval(this.intervalId);
+      }
+    }, 1000);
+  }
+
+  public reDrawHero(): void {
+    this.layer.destroyChildren();
+    this.listHero.forEach(hero => {
+      this.drawHero(hero);
     });
+    this.layer.batchDraw();
   }
 
   public getArmours(): void {
@@ -182,7 +120,59 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe(weapons => this.weapons = weapons);
     this._subscription.add((weaponSubscription));
   }
+  private attack(): void {
+    this.listHero.forEach(attacker => {
+      this.listHero.forEach(target => {
+        if (attacker.id !== target.id) {
+          // @ts-ignore
+          target.health -= attacker.weapon;
+          if (target.health <= 0) {
+            const index = this.listHero.findIndex(hero => hero.id === target.id);
+            this.listHero.splice(index, 1);
+            this.reDrawHero();
+            if (this.listHero.length === 1) {
+              this.battleCompleted = true;
+            }
+          }
+        }
+      });
+    });
+  }
 
+  private changeWeapon(hero: Hero ): void {
+    const createWeaponOrArmourSubscription = this.heroService
+      .displayAsync(hero)
+      .pipe(
+        mergeMap((heroDialogResponse) => {
+          if (!heroDialogResponse) {
+            return of(null);
+          }
+          const heroPayload = {
+            name: heroDialogResponse.name,
+            health: heroDialogResponse.health,
+            srcImage: heroDialogResponse.srcImage,
+            armour: heroDialogResponse.armour,
+            weapon: heroDialogResponse.weapon,
+          };
+          let heroEdited = {
+            id: hero?.id,
+            ...heroPayload,
+          };
+          this.heroService.saveInitStep(heroEdited);
+          this.heroes = this.heroService.getInitStep();
+          return of(heroEdited);
+        }),
+        catchError((exception) => {
+          return throwError(exception);
+        }),
+      )
+      .subscribe((response) => {
+        if (!response) {
+          return;
+        }
+      });
+    this._subscription.add(createWeaponOrArmourSubscription);
+  }
   public ngOnDestroy() {
     this._subscription?.unsubscribe();
   }
