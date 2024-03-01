@@ -1,6 +1,6 @@
 1. How long the exercise took? - Total: 16h
-  - Research Konva framework to implement canvas, add/remove imageSrc to canvas, add border around the image: 8h
-  - Finish tasks 
+  - Research Konva framework to implement canvas, add/remove imageSrc to canvas, add border around the image: 3h
+  - Finish tasks : 15h
     - Add a health property to each hero.  Default it to 100
     - Add a tab for weapons. It has the properties: id, name, damage
     - Add a tab for armour. It has the properties: id, name, health
