@@ -1,4 +1,4 @@
-1. How long the exercise took? - Total: 16h
+1.  Time for Research requirement and Code
   - Research Konva framework to implement canvas, add/remove imageSrc to canvas, add border around the image: 3h
   - Finish tasks : 15h
     - Add a health property to each hero.  Default it to 100
@@ -13,13 +13,12 @@
     - You can click on hero and change the weapon and it updates the current battle
     - When the hero gets down to <50 health show a red background around the hero
     - When a hero gets to 0 they are removed from the canvas
-  - 
 
-2. What you woud imporve on if given more time?
+2. If I have more time :
   - Research to select a hero that Hero can Add weapon and armour
   - Research UI/UX to increase user experience
   - Research and write unit tests
-  -  developer improved on the minimum tasks to make it a better experience for the user
+  - Developer improved on the minimum tasks to make it a better experience for the user
   - Responsive layout
 
 3. Video demo
