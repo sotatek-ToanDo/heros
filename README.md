@@ -1,5 +1,5 @@
 1.  Time for Research requirement and Code
-  - Research Konva framework to implement canvas, add/remove imageSrc to canvas, add border around the image: 3h
+  - Research Konva framework to implement canvas, add/remove imageSrc to canvas and add border around the image: 3h
   - Finish tasks : 15h
     - Add a health property to each hero.  Default it to 100
     - Add a tab for weapons. It has the properties: id, name, damage
